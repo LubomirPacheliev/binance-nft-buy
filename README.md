@@ -1,2 +1,2 @@
 # binance-nft-buy
-A javascript bot that will automatically purchase limited edition NFTs from Binance NFT
+Don't expect documentation, this bot is only for my own personal needs for now.
