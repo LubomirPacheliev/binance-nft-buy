@@ -1,8 +1,7 @@
 import fetch from 'node-fetch';
-import { COOKIE, CSRF_TOKEN } from './config/config.js';
+import { COOKIE, CSRF_TOKEN, PRODUCT_ID, AMOUNT } from './config/config.js';
 
-const PURCHASE_URL = 'https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase';
-const PRODUCT_ID = 133913760132809728
+const PURCHASE_URL = 'https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase?productId=';
 
 const getBoxInfo = async productID => {
     console.log('Getting mystery box info . . .');
@@ -19,17 +18,28 @@ const getBoxInfo = async productID => {
 
 const startTimeout = async startTime => {
     const currTime = new Date().getTime();
-    const boxInfo = await getBoxInfo(PRODUCT_ID);
-    const boxData = boxInfo.data;
 
     console.log('Starting the timer . . .');
     if (startTime < currTime) throw new Error('Sale has already ended.');
     console.log('Timer started.');
-    setTimeout(() => purchaseBox(boxData), startTime - currTime);
+    setTimeout(() => purchaseBox(AMOUNT, PRODUCT_ID), startTime - currTime);
 }
 
-const purchaseBox = async boxData => {
+const purchaseBox = (amount, productID) => {
+    fetch(PURCHASE_URL + productID, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            cookie: COOKIE,
+            csrftoken: CSRF_TOKEN
+        },
+        body: JSON.stringify({ProductID: productID, Amount: amount})
+    })
     console.log('Mystery box purchased.')
 }
 
-startTimeout(new Date().getTime() + 2000);
+(async function() {
+    const boxInfo = await getBoxInfo(PRODUCT_ID);
+    const boxData = boxInfo.data;
+    startTimeout(boxData.startTime);
+})();
