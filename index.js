@@ -4,6 +4,7 @@ const PURCHASE_URL = 'https://www.binance.com/bapi/nft/v1/private/nft/mystery-bo
 const PRODUCT_ID = 133913760132809728
 
 const getBoxInfo = async productID => {
+    console.log('Getting mystery box info . . .');
     try {
         const INFO_URL = 'https://www.binance.com/bapi/nft/v1/friendly/nft/mystery-box/detail?productId=';
         const res = await fetch(INFO_URL + productID);
@@ -20,6 +21,9 @@ const startTimeout = async startTime => {
     const boxInfo = await getBoxInfo(PRODUCT_ID);
     const boxData = boxInfo.data;
 
+    console.log('Starting the timer . . .');
+    if (startTime < currTime) throw new Error('Sale has already ended.');
+    console.log('Timer started.');
     setTimeout(() => purchaseBox(boxData), startTime - currTime);
 }
 
