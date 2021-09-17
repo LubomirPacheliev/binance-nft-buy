@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { COOKIE, CSRF_TOKEN } from './config/config.js';
 
 const PURCHASE_URL = 'https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase';
 const PRODUCT_ID = 133913760132809728
