@@ -1,0 +1,15 @@
+{
+  "name": "binance-nft-bot",
+  "version": "1.0.0",
+  "description": "This is a bot that buys nfts automatically from Binance NFT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Lyubomir Pacheliev",
+  "license": "ISC",
+  "dependencies": {
+    "@binance/connector": "^1.4.0"
+  }
+}
