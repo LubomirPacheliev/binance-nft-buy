@@ -20,22 +20,23 @@ const startTimeout = async startTime => {
     const currTime = new Date().getTime();
 
     console.log('Starting the timer . . .');
-    if (startTime < currTime) throw new Error('Sale has already ended.');
     console.log('Timer started.');
     setTimeout(() => purchaseBox(AMOUNT, PRODUCT_ID), startTime - currTime);
 }
 
 const purchaseBox = (amount, productID) => {
-    fetch(PURCHASE_URL + productID, {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            cookie: COOKIE,
-            csrftoken: CSRF_TOKEN
-        },
-        body: JSON.stringify({ProductID: productID, Amount: amount})
-    })
-    console.log('Mystery box purchased.')
+    for (let i = 0; i <= amount; i++) {
+        fetch(PURCHASE_URL + productID, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                cookie: COOKIE,
+                csrftoken: CSRF_TOKEN
+            },
+            body: JSON.stringify({ProductID: productID, Amount: amount})
+        }).then(res => res.json()).then(res => console.log(res))
+    }
+    console.log('Purchasing of a box attempted.')
 }
 
 (async function() {
