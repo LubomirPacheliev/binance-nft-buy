@@ -39,8 +39,24 @@ const purchaseBox = (amount, productID) => {
     console.log('Purchasing of a box attempted.')
 }
 
+const authenticateUser = async () => {
+    const ACCOUNT_API_URL = "https://www.binance.com/bapi/accounts/v1/public/authcenter/auth";
+    const res = await fetch(ACCOUNT_API_URL, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            cookie: COOKIE,
+            csrf_token: CSRF_TOKEN
+        },
+        body: JSON.stringify(null)
+    });
+    const parsedRes = await res.json();
+    console.log(parsedRes);
+}
+
 (async function() {
-    const boxInfo = await getBoxInfo(PRODUCT_ID);
-    const boxData = boxInfo.data;
-    startTimeout(boxData.startTime);
+    // const boxInfo = await getBoxInfo(PRODUCT_ID);
+    // const boxData = boxInfo.data;
+    // startTimeout(boxData.startTime);
+    authenticateUser();
 })();
