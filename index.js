@@ -25,30 +25,32 @@ const startTimeout = async startTime => {
 }
 
 const purchaseBox = (amount, productID) => {
-    for (let i = 0; i <= amount; i++) {
-        fetch(PURCHASE_URL + productID, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                cookie: COOKIE,
-                csrftoken: CSRF_TOKEN
-            },
-            body: JSON.stringify({ProductID: productID, Amount: amount})
-        }).then(res => res.json()).then(res => console.log(res))
-    }
-    console.log('Purchasing of a box attempted.')
+    fetch(PURCHASE_URL + productID, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            cookie: COOKIE,
+            csrftoken: CSRF_TOKEN
+        },
+        body: JSON.stringify({ProductID: productID, Amount: amount})
+    }).then(res => res.json()).then(res => console.log(res));
+    console.log('Purchasing of a box attempted.');
 }
 
 const authenticateUser = async () => {
     const ACCOUNT_API_URL = "https://www.binance.com/bapi/accounts/v1/public/authcenter/auth";
     const res = await fetch(ACCOUNT_API_URL, {
+        credentials: 'include',
         method: 'POST',
         headers: {
-            'content-type': 'application/json',
-            cookie: COOKIE,
-            csrf_token: CSRF_TOKEN
+            "Content-Type": "application/json",
+            "mode": "cors",
+            "csrftoken": CSRF_TOKEN,
+            "cookie": COOKIE,
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36",
+            "client-type": "web"
         },
-        body: JSON.stringify(null)
+        body: "{}"
     });
     const parsedRes = await res.json();
     console.log(parsedRes);
@@ -58,5 +60,5 @@ const authenticateUser = async () => {
     // const boxInfo = await getBoxInfo(PRODUCT_ID);
     // const boxData = boxInfo.data;
     // startTimeout(boxData.startTime);
-    authenticateUser();
+    await authenticateUser();
 })();
