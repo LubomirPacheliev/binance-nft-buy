@@ -26,11 +26,15 @@ const startTimeout = async startTime => {
 
 const purchaseBox = (amount, productID) => {
     fetch(PURCHASE_URL + productID, {
+        credentials: 'include',
         method: 'POST',
         headers: {
-            'content-type': 'application/json',
-            cookie: COOKIE,
-            csrftoken: CSRF_TOKEN
+            "Content-Type": "application/json",
+            "mode": "cors",
+            "csrftoken": CSRF_TOKEN,
+            "cookie": COOKIE,
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36",
+            "client-type": "web"
         },
         body: JSON.stringify({ProductID: productID, Amount: amount})
     }).then(res => res.json()).then(res => console.log(res));
@@ -57,8 +61,8 @@ const authenticateUser = async () => {
 }
 
 (async function() {
-    // const boxInfo = await getBoxInfo(PRODUCT_ID);
-    // const boxData = boxInfo.data;
-    // startTimeout(boxData.startTime);
-    await authenticateUser();
+    const boxInfo = await getBoxInfo(PRODUCT_ID);
+    const boxData = boxInfo.data;
+    startTimeout(boxData.startTime);
+    // await authenticateUser();
 })();
